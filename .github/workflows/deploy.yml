@@ -1,0 +1,34 @@
+name: Deploy Workflow
+on: push
+jobs:
+  Lintjob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v6
+      - name: Install the dependencies
+        run: npm ci
+      - name: Lint-code analysis
+        run: npm run lint
+  Testjob:
+    needs: Lintjob
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v6
+      - name: Install the dependencies
+        run: npm ci
+      - name: Test
+        run: npm run test
+  Deployjob:
+    needs: Testjob
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v6
+      - name: Install the dependencies
+        run: npm ci
+      - name: Build the code
+        run: npm run build
+      - name: Deploy
+        run: echo "Deploying ..."
